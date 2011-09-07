@@ -6,6 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  *
  */
+ 
 package com.findlaw.titanium.c2dm;
 
 import org.appcelerator.kroll.KrollDict;
@@ -57,6 +58,14 @@ public class C2dmModule extends KrollModule
 		}
 	}
 	
+	// Methods
+	@Kroll.method
+	public void unregister() {
+		Log.d(LCAT, "unregister called");
+		C2DMessaging.unregister(getTiContext().getTiApp());	
+	}
+		
+		
 	// Properties
 	@Kroll.getProperty
 	public String getRegistrationId() {
