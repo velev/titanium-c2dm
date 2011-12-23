@@ -3,8 +3,8 @@
 	<!-- Similar to tiapp.xml, but contains module/platform specific configuration in <iphone> and <android>/<android:manifest> sections -->
 	
 	<android:manifest>
-		<permission android:name="com.findlaw.titanium.c2dm.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-		<uses-permission android:name="com.findlaw.titanium.c2dm.permission.C2D_MESSAGE" />
+		<permission android:name="com.findlaw.c2dm.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+		<uses-permission android:name="com.findlaw.c2dm.permission.C2D_MESSAGE" />
 
 		<!-- This app has permission to register and receive message -->
 		<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -38,12 +38,12 @@
 				<!-- Receive the actual message -->
 				<intent-filter>
 					<action android:name="com.google.android.c2dm.intent.RECEIVE" />
-					<category android:name="com.findlaw.titanium.c2dm" />
+					<category android:name="com.findlaw.c2dm" />
 				</intent-filter>
 				<!-- Receive the registration id -->
 				<intent-filter>
 					<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-					<category android:name="com.findlaw.titanium.c2dm" />
+					<category android:name="com.findlaw.c2dm" />
 				</intent-filter>
 			</receiver>
 

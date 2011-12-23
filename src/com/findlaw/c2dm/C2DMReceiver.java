@@ -1,8 +1,7 @@
-package com.findlaw.titanium.c2dm;
+package com.findlaw.c2dm;
 
 import java.io.IOException;
-
-import org.appcelerator.kroll.KrollDict;
+import java.util.HashMap;
 import org.appcelerator.titanium.util.Log;
 
 import com.google.android.c2dm.C2DMBaseReceiver;
@@ -19,7 +18,7 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 
 	private static final String LCAT = "C2DMReceiver";
 
-	private static final String REGISTER_EVENT = "register";
+	private static final String REGISTER_EVENT = "registerC2dm";
 	private static final String UNREGISTER_EVENT = "unregister";
 	private static final String MESSAGE_EVENT = "message";
 	private static final String ERROR_EVENT = "error";
@@ -34,14 +33,14 @@ public class C2DMReceiver extends C2DMBaseReceiver {
 	public void onUnregistered(Context context) {
 		Log.d(LCAT, "Unregistered");
 
-		C2dmModule.getInstance().fireEvent(UNREGISTER_EVENT, new KrollDict());
+		C2dmModule.getInstance().fireEvent(UNREGISTER_EVENT, new HashMap());
 	}
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
 		Log.d(LCAT, "Message received");
 
-		KrollDict data = new KrollDict();
+		HashMap data = new HashMap();
 		for (String key : intent.getExtras().keySet()) {
 			Log.d(LCAT, "Message key: " + key + " value: "
 					+ intent.getExtras().getString(key));

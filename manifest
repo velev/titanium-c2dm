@@ -6,13 +6,13 @@ version: 0.1
 description: My module
 author: Your Name
 license: Specify your license
-copyright: Copyright (c) 2010 by Your Company
+copyright: Copyright (c) 2011 by Your Company
+apiversion: 2
 
 
 # these should not be edited
 name: c2dm
-moduleid: com.findlaw.titanium.c2dm
+moduleid: com.findlaw.c2dm
 guid: bc223a51-1bf1-4014-bc0c-483a783b1c7e
 platform: android
-minsdk: 1.5.0
-android.sdk: /opt/android-sdk
+minsdk: 1.8.0.1

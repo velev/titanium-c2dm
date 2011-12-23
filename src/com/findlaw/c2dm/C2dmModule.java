@@ -7,23 +7,24 @@
  *
  */
  
-package com.findlaw.titanium.c2dm;
+package com.findlaw.c2dm;
 
-import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollInvocation;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 
 import org.appcelerator.titanium.TiContext;
-import org.appcelerator.titanium.kroll.KrollCallback;
+import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.titanium.util.Log;
+import java.util.HashMap;
+import org.appcelerator.kroll.KrollFunction;
 
 import com.google.android.c2dm.C2DMessaging;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
-@Kroll.module(name="C2dm", id="com.findlaw.titanium.c2dm")
+@Kroll.module(name="C2dm", id="com.findlaw.c2dm")
 public class C2dmModule extends KrollModule
 {
 	// Standard Debugging variables
@@ -31,30 +32,29 @@ public class C2dmModule extends KrollModule
 	
 	private static C2dmModule _THIS;
 	
-	private KrollCallback successCallback;
-	private KrollCallback errorCallback;
-	private KrollCallback messageCallback;
+	private KrollFunction successCallback;
+	private KrollFunction errorCallback;
+	private KrollFunction messageCallback;
 	
-	public C2dmModule(TiContext tiContext) {
-		super(tiContext);
-		
+	public C2dmModule() {
+		super();
 		_THIS = this;
 	}
 
 	// Methods
 	@Kroll.method
-	public void register(String senderId, KrollDict options) {
-		Log.d(LCAT, "register called");
+	public void registerC2dm(String senderId, HashMap options) {
+		Log.d(LCAT, "registerC2dm called");
 		
-		successCallback = (KrollCallback)options.get("success");
-		errorCallback = (KrollCallback)options.get("error");
-		messageCallback = (KrollCallback)options.get("callback");
+		successCallback = (KrollFunction)options.get("success");
+		errorCallback = (KrollFunction)options.get("error");
+		messageCallback = (KrollFunction)options.get("callback");
 		
 		String registrationId = getRegistrationId();
 		if(registrationId != null && registrationId.length() > 0) {
 			sendSuccess(registrationId);
 		} else {
-			C2DMessaging.register(getTiContext().getTiApp(), senderId);
+			C2DMessaging.register(TiApplication.getInstance(), senderId);
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class C2dmModule extends KrollModule
 	@Kroll.method
 	public void unregister() {
 		Log.d(LCAT, "unregister called");
-		C2DMessaging.unregister(getTiContext().getTiApp());	
+		C2DMessaging.unregister(TiApplication.getInstance());	
 	}
 		
 		
@@ -70,33 +70,33 @@ public class C2dmModule extends KrollModule
 	@Kroll.getProperty
 	public String getRegistrationId() {
 		Log.d(LCAT, "get registrationId property");
-		return C2DMessaging.getRegistrationId(getTiContext().getTiApp());
+		return C2DMessaging.getRegistrationId(TiApplication.getInstance());
 	}
 	
 	public void sendSuccess(String registrationId) {
 		if(successCallback != null) {
-			KrollDict data = new KrollDict();
+			HashMap data = new HashMap();
 			data.put("registrationId", registrationId);
 		
-			successCallback.callAsync(data);
+			successCallback.callAsync(getKrollObject(),data);
 		}
 	}
 	
 	public void sendError(String error) {
 		if(errorCallback != null) {
-			KrollDict data = new KrollDict();
+			HashMap data = new HashMap();
 			data.put("error", error);
 		
-			errorCallback.callAsync(data);
+			errorCallback.callAsync(getKrollObject(),data);
 		}
 	}
 	
-	public void sendMessage(KrollDict messageData) {
+	public void sendMessage(HashMap messageData) {
 		if(messageCallback != null) {
-			KrollDict data = new KrollDict();
+			HashMap data = new HashMap();
 			data.put("data", messageData);
 		
-			messageCallback.callSync(data);
+			messageCallback.call(getKrollObject(),data);
 		}
 	}
 	
