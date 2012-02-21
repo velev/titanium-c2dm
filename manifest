@@ -15,4 +15,4 @@ name: c2dm
 moduleid: com.findlaw.c2dm
 guid: bc223a51-1bf1-4014-bc0c-483a783b1c7e
 platform: android
-minsdk: 1.8.0.1
+minsdk: 1.8.1
